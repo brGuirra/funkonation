@@ -1,19 +1,22 @@
 {
-  "name": "funkonation",
-  "version": "1.0.0",
-  "description": "Rsbuild Module Federation example with Zephyr",
-  "private": true,
-  "scripts": {
-    "build": "pnpm build-providers && pnpm build-consumers",
-    "build-providers": "pnpm -r --filter=./providers/* build",
-    "build-consumers": "pnpm -r --filter=./consumers/* build",
-    "dev": "pnpm --filter=mf-react-rsbuild-provider dev & pnpm --filter=mf-react-rsbuild-consumer dev"
-  },
-  "keywords": [
-    "rsbuild",
-    "module-federation",
-    "zephyr"
-  ],
-  "author": "",
-  "license": "MIT"
+	"name": "funkonation",
+	"version": "1.0.0",
+	"description": "Rsbuild Module Federation example with Zephyr",
+	"private": true,
+	"scripts": {
+		"build": "pnpm build-providers && pnpm build-consumers",
+		"build-providers": "pnpm -r --filter=./providers/* build",
+		"build-consumers": "pnpm -r --filter=./consumers/* build",
+		"dev": "pnpm -r --filter=./providers/* dev & pnpm -r --filter=./consumers/* dev"
+	},
+	"keywords": [
+		"rsbuild",
+		"module-federation",
+		"zephyr"
+	],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@biomejs/biome": "2.4.7"
+	}
 }

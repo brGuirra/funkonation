@@ -1,60 +1,60 @@
 {
-  "version": 1,
-  "skills": {
-    "mf-bridge-check": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "034e678154aae880e3abaae5196e83226af414c14e3c89d9c1db0b5c0a6138dd"
-    },
-    "mf-config-check": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "e5d7663dbafef2e1f240003aa7aa8544bb8fb4cd66d3e0ada45f24098cc80bf6"
-    },
-    "mf-context": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "8332ce4c6fba528abacf8ba1b997e7c33551097dfad28648bb13fa7104c7aadb"
-    },
-    "mf-docs": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "d160493986eb50046e1a88b96623948082f2c9d5ec77b9359283a30bb1842d59"
-    },
-    "mf-integrate": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "0d52b5834143898266b650c5883d8aee77552ba58d68f45125d6192033c89732"
-    },
-    "mf-module-info": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "a6e1b72d8aaccdd985fe74f284af62a4d93fcb02174ffc7d9027f1a66b6aae1c"
-    },
-    "mf-perf": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "6f39d6d88bed12aad01e1cf46f20b06f6dc4a67384ac5beeba9f6751da253fcd"
-    },
-    "mf-shared-deps": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "69d584b56a95730b3756f194d35eb75f9e38e2f3f7d1bb60f19660b8230f481b"
-    },
-    "mf-type-check": {
-      "source": "module-federation/core",
-      "sourceType": "github",
-      "computedHash": "45f429a8e9ac841bd95de2d881bf762786f9fadcd815b5afbcf1955823446740"
-    },
-    "shadcn": {
-      "source": "shadcn/ui",
-      "sourceType": "github",
-      "computedHash": "1ec42c9b918b315d8e5c6c856b78c3c4725fc93dea30b9b7e9975c69848fcce6"
-    },
-    "web-design-guidelines": {
-      "source": "vercel-labs/agent-skills",
-      "sourceType": "github",
-      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
-    }
-  }
+	"version": 1,
+	"skills": {
+		"mf-bridge-check": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "034e678154aae880e3abaae5196e83226af414c14e3c89d9c1db0b5c0a6138dd"
+		},
+		"mf-config-check": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "e5d7663dbafef2e1f240003aa7aa8544bb8fb4cd66d3e0ada45f24098cc80bf6"
+		},
+		"mf-context": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "8332ce4c6fba528abacf8ba1b997e7c33551097dfad28648bb13fa7104c7aadb"
+		},
+		"mf-docs": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "d160493986eb50046e1a88b96623948082f2c9d5ec77b9359283a30bb1842d59"
+		},
+		"mf-integrate": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "0d52b5834143898266b650c5883d8aee77552ba58d68f45125d6192033c89732"
+		},
+		"mf-module-info": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "a6e1b72d8aaccdd985fe74f284af62a4d93fcb02174ffc7d9027f1a66b6aae1c"
+		},
+		"mf-perf": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "6f39d6d88bed12aad01e1cf46f20b06f6dc4a67384ac5beeba9f6751da253fcd"
+		},
+		"mf-shared-deps": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "69d584b56a95730b3756f194d35eb75f9e38e2f3f7d1bb60f19660b8230f481b"
+		},
+		"mf-type-check": {
+			"source": "module-federation/core",
+			"sourceType": "github",
+			"computedHash": "45f429a8e9ac841bd95de2d881bf762786f9fadcd815b5afbcf1955823446740"
+		},
+		"shadcn": {
+			"source": "shadcn/ui",
+			"sourceType": "github",
+			"computedHash": "1ec42c9b918b315d8e5c6c856b78c3c4725fc93dea30b9b7e9975c69848fcce6"
+		},
+		"web-design-guidelines": {
+			"source": "vercel-labs/agent-skills",
+			"sourceType": "github",
+			"computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
+		}
+	}
 }

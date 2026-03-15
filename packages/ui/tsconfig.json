@@ -7,12 +7,8 @@
 		"strict": true,
 		"skipLibCheck": true,
 		"isolatedModules": true,
-		"resolveJsonModule": true,
 		"moduleResolution": "bundler",
-		"baseUrl": ".",
-		"paths": {
-			"@funkonation/ui/*": ["../../packages/ui/src/*"]
-		}
+		"resolveJsonModule": true
 	},
 	"include": ["src"]
 }

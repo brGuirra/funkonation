@@ -22,7 +22,7 @@ Project constraints from the PRD:
 ## Project Snapshot
 
 - Package manager: `pnpm`
-- Workspace layout: `consumers/*` and `providers/*`
+- Workspace layout: `consumers/*`, `providers/*`, and `packages/*`
 - Bundler: `Rsbuild`
 - UI stack: `React 19` + `TypeScript`
 - Federation plugin: `@module-federation/rsbuild-plugin`
@@ -32,6 +32,10 @@ Current apps:
 
 - Consumer shell: `consumers/ecommerce`
 - Provider remote: `providers/product-catalog`
+
+Shared workspace packages:
+
+- UI package: `packages/ui`
 
 Current repo status:
 
@@ -98,10 +102,10 @@ When working with Zephyr:
 - Distinguish clearly between npm package names, workspace package names, and Module Federation container names.
 - If you change remote names, manifest URLs, ports, or expose keys, review Zephyr-related config in the same session.
 
-Important caveat:
+Important rule:
 
-- `consumers/ecommerce/package.json` still contains Zephyr dependency naming from an earlier example-style setup.
-- Do not spread that naming further without confirming the intended publish/dependency naming strategy.
+- In `zephyr:dependencies`, use the Module Federation remote alias as the key and the Zephyr application UID selector as the value.
+- For same-repo Zephyr dependencies, prefer the actual app identity such as `product-catalog@workspace:*` over starter-example names.
 
 ## Architecture Direction
 
@@ -111,6 +115,7 @@ Preferred boundaries:
 
 - `consumers/ecommerce`: shell, routing, page composition, shared layout, cart state orchestration
 - `providers/product-catalog`: product listing, product details, product data access
+- `packages/ui`: shared reusable UI source (shadcn-based components and shared styling tokens)
 
 Planned next provider:
 
@@ -123,9 +128,17 @@ Keep product details inside the catalog domain unless the PRD changes.
 
 Before editing:
 
-- Inspect the relevant app `package.json`, `rsbuild.config.ts`, and affected source files.
-- Confirm whether the change belongs in the consumer shell or in a provider.
+- Inspect the relevant `package.json`, `rsbuild.config.ts`, and affected source files.
+- Confirm whether the change belongs in the consumer shell, a provider, or a shared package.
 - Check whether the task affects Module Federation names, remotes, exposes, shared deps, manifest URLs, or Zephyr metadata.
+
+When changing shared code:
+
+- Prefer `packages/*` for code shared at build time by multiple apps.
+- Keep provider remotes focused on runtime-federated domain capabilities.
+- If touching `packages/ui`, also verify app-level style/build wiring in affected consumers/providers.
+- Treat `packages/ui/components.json` as the single shadcn source of truth for the monorepo.
+- Do not add app-level `components.json` files under `consumers/*` or `providers/*` unless those apps intentionally own separate shadcn component source.
 
 When changing federation behavior:
 
@@ -202,12 +215,15 @@ Workspace:
 - `PRD.md`
 - `package.json`
 - `pnpm-workspace.yaml`
+- `packages/ui/package.json`
+- `packages/ui/src/components/ui/button.tsx`
+- `packages/ui/src/styles/globals.css`
 
 ## Definition Of Done
 
 For changes in this repo, prefer closing a session only after:
 
-- The touched app or apps build successfully.
+- The touched app or apps build successfully (including apps affected by shared `packages/*` changes).
 - Federation names, remotes, exposes, and imports are still aligned.
 - Zephyr-related config still matches the intended remote identity.
 - Any newly introduced remote surface is easy to understand and documented in code.

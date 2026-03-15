@@ -1,21 +1,58 @@
-import { defineConfig } from '@rsbuild/core';
-import { pluginReact } from '@rsbuild/plugin-react';
-import { pluginModuleFederation } from '@module-federation/rsbuild-plugin';
-import { withZephyr } from 'zephyr-rsbuild-plugin';
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
+import { defineConfig } from "@rsbuild/core";
+import { pluginReact } from "@rsbuild/plugin-react";
+import tailwindcss from "@tailwindcss/postcss";
+import { withZephyr } from "zephyr-rsbuild-plugin";
 
-export default defineConfig({
-  plugins: [
-    pluginReact(),
-    pluginModuleFederation({
-      name: 'federation_consumer',
-      remotes: {
-        federation_provider: 'federation_provider@http://localhost:3000/mf-manifest.json',
-      },
-      shared: ['react', 'react-dom'],
-    }),
-    withZephyr(),
-  ],
-  server: {
-    port: 2000,
-  },
+const workspaceUiSrc = path.resolve(
+	path.dirname(fileURLToPath(import.meta.url)),
+	"../../packages/ui/src",
+);
+
+export default defineConfig(({ command }) => {
+	const plugins = [
+		pluginReact(),
+		pluginModuleFederation({
+			name: "ecommerce",
+			remotes: {
+				product_catalog:
+					"product_catalog@http://localhost:3001/mf-manifest.json",
+			},
+			dts: {
+				generateTypes: false,
+				consumeTypes: false,
+			},
+			shared: {
+				react: {
+					singleton: true,
+				},
+				"react-dom": {
+					singleton: true,
+				},
+			},
+		}),
+	];
+
+	if (command !== "dev") {
+		plugins.push(withZephyr());
+	}
+
+	return {
+		plugins,
+		server: {
+			port: 3000,
+		},
+		source: {
+			include: [workspaceUiSrc],
+		},
+		tools: {
+			postcss: {
+				postcssOptions: {
+					plugins: [tailwindcss()],
+				},
+			},
+		},
+	};
 });
