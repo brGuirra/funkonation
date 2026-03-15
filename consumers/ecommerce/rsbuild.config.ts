@@ -17,8 +17,8 @@ export default defineConfig(({ command }) => {
 		pluginModuleFederation({
 			name: "ecommerce",
 			remotes: {
-				product_catalog:
-					"product_catalog@http://localhost:3001/mf-manifest.json",
+				product_catalog: "product_catalog@http://localhost:3001/remoteEntry.js",
+				cart: "cart@http://localhost:3002/remoteEntry.js",
 			},
 			dts: {
 				generateTypes: false,
@@ -31,11 +31,12 @@ export default defineConfig(({ command }) => {
 				"react-dom": {
 					singleton: true,
 				},
+				"lucide-react": {},
 			},
 		}),
 	];
 
-	if (command !== "dev") {
+	if (command !== "dev" && process.env.ZEPHYR_ENABLED !== "false") {
 		plugins.push(withZephyr());
 	}
 

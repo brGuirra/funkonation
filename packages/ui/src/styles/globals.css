@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Coiny&family=Nunito:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
 @source "../../**/*.{ts,tsx}";
@@ -5,44 +6,53 @@
 :root {
 	--radius: 0.625rem;
 	--background: #ffffff;
-	--foreground: #0a0a0a;
+	--foreground: #171923;
 	--card: #ffffff;
-	--card-foreground: #0a0a0a;
+	--card-foreground: #171923;
 	--popover: #ffffff;
-	--popover-foreground: #0a0a0a;
-	--primary: #171717;
-	--primary-foreground: #fafafa;
-	--secondary: #f5f5f5;
-	--secondary-foreground: #171717;
-	--muted: #f5f5f5;
-	--muted-foreground: #737373;
-	--accent: #f5f5f5;
-	--accent-foreground: #171717;
+	--popover-foreground: #171923;
+	--primary: #3182ce;
+	--primary-foreground: #ffffff;
+	--secondary: #edf2f7;
+	--secondary-foreground: #2b6cb0;
+	--muted: #f7fafc;
+	--muted-foreground: #718096;
+	--accent: #ebf4ff;
+	--accent-foreground: #2b6cb0;
 	--destructive: #dc2626;
-	--border: #e5e5e5;
-	--input: #e5e5e5;
-	--ring: #a3a3a3;
+	--border: #d9e2ec;
+	--input: #d9e2ec;
+	--ring: #90cdf4;
+	--link: #2b6cb0;
+	--success: #ebfff5;
+	--success-foreground: #2f855a;
+	--font-family-brand: "Coiny", cursive;
+	--font-family-display: "Nunito", sans-serif;
+	--font-family-ui: "Roboto", sans-serif;
 }
 
 .dark {
-	--background: #0a0a0a;
-	--foreground: #fafafa;
-	--card: #0a0a0a;
-	--card-foreground: #fafafa;
-	--popover: #0a0a0a;
-	--popover-foreground: #fafafa;
-	--primary: #fafafa;
-	--primary-foreground: #171717;
-	--secondary: #262626;
-	--secondary-foreground: #fafafa;
-	--muted: #262626;
-	--muted-foreground: #a3a3a3;
-	--accent: #262626;
-	--accent-foreground: #fafafa;
-	--destructive: #ef4444;
-	--border: #262626;
-	--input: #262626;
-	--ring: #737373;
+	--background: #0f172a;
+	--foreground: #f7fafc;
+	--card: #111827;
+	--card-foreground: #f7fafc;
+	--popover: #111827;
+	--popover-foreground: #f7fafc;
+	--primary: #63b3ed;
+	--primary-foreground: #0f172a;
+	--secondary: #1e293b;
+	--secondary-foreground: #bfdbfe;
+	--muted: #1e293b;
+	--muted-foreground: #94a3b8;
+	--accent: #1d4ed8;
+	--accent-foreground: #eff6ff;
+	--destructive: #f87171;
+	--border: #334155;
+	--input: #334155;
+	--ring: #63b3ed;
+	--link: #90cdf4;
+	--success: #14532d;
+	--success-foreground: #bbf7d0;
 }
 
 @theme inline {
@@ -68,6 +78,12 @@
 	--color-border: var(--border);
 	--color-input: var(--input);
 	--color-ring: var(--ring);
+	--color-link: var(--link);
+	--color-success: var(--success);
+	--color-success-foreground: var(--success-foreground);
+	--font-sans: var(--font-family-ui);
+	--font-brand: var(--font-family-brand);
+	--font-display: var(--font-family-display);
 }
 
 @layer base {
@@ -76,6 +92,17 @@
 	}
 
 	body {
-		@apply bg-background text-foreground antialiased;
+		@apply bg-background text-foreground font-sans antialiased;
+	}
+
+	button,
+	input,
+	select,
+	textarea {
+		font: inherit;
+	}
+
+	img {
+		display: block;
 	}
 }

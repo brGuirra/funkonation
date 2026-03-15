@@ -7,7 +7,8 @@
 		"build": "pnpm build-providers && pnpm build-consumers",
 		"build-providers": "pnpm -r --filter=./providers/* build",
 		"build-consumers": "pnpm -r --filter=./consumers/* build",
-		"dev": "pnpm -r --filter=./providers/* dev & pnpm -r --filter=./consumers/* dev"
+		"dev": "pnpm -r --filter=./providers/* dev & pnpm -r --filter=./consumers/* dev",
+		"lint": "biome check --write"
 	},
 	"keywords": [
 		"rsbuild",

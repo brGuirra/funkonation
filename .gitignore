@@ -14,3 +14,7 @@ dist/
 
 # MF Types
 @mf-types
+
+.codex/logs
+.codex/sessions
+.codex/auth

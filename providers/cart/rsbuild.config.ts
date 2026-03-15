@@ -18,12 +18,9 @@ export default defineConfig(({ command }) => {
 			dts: {
 				generateTypes: false,
 			},
-			name: "product_catalog",
+			name: "cart",
 			exposes: {
-				"./ProductList": "./src/components/ProductList.tsx",
-				"./ProductDetails": "./src/components/ProductDetails.tsx",
-				"./ProductCard": "./src/components/ProductCard.tsx",
-				"./SeriesFilter": "./src/components/SeriesFilter.tsx",
+				"./CartView": "./src/components/CartView.tsx",
 			},
 			filename: "remoteEntry.js",
 			shared: {
@@ -45,7 +42,7 @@ export default defineConfig(({ command }) => {
 	return {
 		plugins,
 		server: {
-			port: 3001,
+			port: 3002,
 			open: false,
 		},
 		source: {

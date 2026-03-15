@@ -4,21 +4,24 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "rsbuild build",
+		"build": "ZEPHYR_ENABLED=false rsbuild build",
+		"build:zephyr": "rsbuild build",
 		"dev": "rsbuild dev --open",
 		"preview": "rsbuild preview"
 	},
 	"dependencies": {
 		"@funkonation/ui": "workspace:*",
+		"@tanstack/react-router": "^1.167.2",
+		"lucide-react": "^0.577.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0"
 	},
 	"devDependencies": {
-		"@tailwindcss/postcss": "^4.1.13",
 		"@module-federation/enhanced": "^0.21.2",
 		"@module-federation/rsbuild-plugin": "^0.21.2",
 		"@rsbuild/core": "^1.6.0",
 		"@rsbuild/plugin-react": "^1.4.1",
+		"@tailwindcss/postcss": "^4.1.13",
 		"@types/react": "^19.2.2",
 		"@types/react-dom": "^19.2.2",
 		"tailwindcss": "^4.1.13",
@@ -26,6 +29,7 @@
 		"zephyr-rsbuild-plugin": "latest"
 	},
 	"zephyr:dependencies": {
-		"product_catalog": "product-catalog@workspace:*"
+		"product_catalog": "product-catalog@workspace:*",
+		"cart": "cart@workspace:*"
 	}
 }

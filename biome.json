@@ -6,7 +6,15 @@
 		"useIgnoreFile": true
 	},
 	"files": {
-		"ignoreUnknown": false
+		"ignoreUnknown": false,
+		"includes": [
+			"**",
+			"!.agents",
+			"!.pnpm-store",
+			"!AGENTS.md",
+			"!PRD.md",
+			"!skills-lock.json"
+		]
 	},
 	"formatter": {
 		"enabled": true,
