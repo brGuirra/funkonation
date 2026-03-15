@@ -204,25 +204,52 @@ Product data is stored in a static JSON file.
 Images are hosted externally on a **CDN or external store** and
 referenced directly in the JSON.
 
+Current entry shape:
+
+``` ts
+type ProductEntry = {
+  id: string;
+  slug: string;
+  url: string;
+  name: string;
+  number: number;
+  series: string;
+  line: string | null;
+  rarity: string | null;
+  price: number;
+  imageUrl: string;
+  description: string;
+  stock: number;
+  source: string;
+};
+```
+
+Notes:
+
+-   `price` is stored as a number in dollars and may include decimals.
+-   `line` and `rarity` can be `null` when the scraped source does not provide a value.
+-   `rarity` is source-driven and currently includes mixed casing such as `rare`, `exclusive`, `Exclusive`, and `Chase`.
+-   `imageUrl` is the current image field name. The old `image` field is no longer used.
+-   `source` identifies the upstream data source for the scraped entry.
+
 Example:
 
 ``` json
 [
   {
-    "id": "batman-funko",
-    "name": "Batman Funko Pop",
-    "price": 12.99,
-    "stock": 10,
-    "image": "https://cdn.example.com/funkos/batman.png",
-    "description": "Classic Batman Funko Pop figure"
-  },
-  {
-    "id": "spiderman-funko",
-    "name": "Spider-Man Funko Pop",
-    "price": 14.99,
-    "stock": 7,
-    "image": "https://cdn.example.com/funkos/spiderman.png",
-    "description": "Friendly neighborhood Spider-Man collectible"
+    "id": "c7ff7b2b-9d1c-4ce4-88a6-e93d13d118f7",
+    "slug": "huckleberry-hound-green-15",
+    "url": "https://popiq.dev/series/funko-pop-animation/huckleberry-hound-green-15",
+    "name": "Huckleberry Hound [Green] #15",
+    "number": 15,
+    "series": "Animation",
+    "line": "Pop! Vinyl",
+    "rarity": null,
+    "price": 3825,
+    "imageUrl": "https://storage.googleapis.com/images.pricecharting.com/jjmeujathy57rkgj/1600.jpg",
+    "description": "Current value: $3825.00. Track price history, compare variants, and find the best deals on this Animation Funko Pop.",
+    "stock": 15,
+    "source": "popiq"
   }
 ]
 ```
