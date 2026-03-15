@@ -1,15 +1,19 @@
 {
-  "name": "mf-react-rsbuild",
+  "name": "funkonation",
   "version": "1.0.0",
   "description": "Rsbuild Module Federation example with Zephyr",
   "private": true,
   "scripts": {
-    "build": "pnpm build-provider && pnpm build-consumer",
-    "build-provider": "pnpm --filter=mf-react-rsbuild-provider build",
-    "build-consumer": "pnpm --filter=mf-react-rsbuild-consumer build",
+    "build": "pnpm build-providers && pnpm build-consumers",
+    "build-providers": "pnpm -r --filter=./providers/* build",
+    "build-consumers": "pnpm -r --filter=./consumers/* build",
     "dev": "pnpm --filter=mf-react-rsbuild-provider dev & pnpm --filter=mf-react-rsbuild-consumer dev"
   },
-  "keywords": ["rsbuild", "module-federation", "zephyr"],
+  "keywords": [
+    "rsbuild",
+    "module-federation",
+    "zephyr"
+  ],
   "author": "",
   "license": "MIT"
 }

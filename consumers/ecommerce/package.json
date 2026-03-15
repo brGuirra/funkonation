@@ -1,5 +1,5 @@
 {
-  "name": "mf-react-rsbuild-provider",
+  "name": "ecommerce",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -21,5 +21,8 @@
     "@types/react-dom": "^19.2.2",
     "typescript": "^5.9.3",
     "zephyr-rsbuild-plugin": "latest"
+  },
+  "zephyr:dependencies": {
+    "federation_provider": "mf-react-rsbuild-provider@*"
   }
 }
