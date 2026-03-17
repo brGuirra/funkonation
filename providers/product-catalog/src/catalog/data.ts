@@ -1,4 +1,4 @@
-import productData from "../../../../data/products.json";
+import productData from "../../data/products.json";
 import { normalizeProduct } from "./normalize";
 import type { CatalogProduct, CatalogProductRecord } from "./types";
 

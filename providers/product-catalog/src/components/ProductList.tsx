@@ -82,9 +82,6 @@ export const ProductList = ({
 		pageSize,
 	);
 	const paginationItems = buildPaginationItems(currentPage, totalPages);
-	const visibleStart = totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1;
-	const visibleEnd =
-		totalItems === 0 ? 0 : Math.min(currentPage * pageSize, totalItems);
 	const changePage = (targetPage: number) => {
 		if (
 			targetPage < 1 ||

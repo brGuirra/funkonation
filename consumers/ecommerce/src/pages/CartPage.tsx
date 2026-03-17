@@ -1,6 +1,7 @@
 import { Skeleton } from "@funkonation/ui/components/skeleton";
 import { useNavigate } from "@tanstack/react-router";
 import { lazy, Suspense } from "react";
+import { RemoteBoundary } from "../components/RemoteBoundary";
 import { useCartContext } from "../context/CartContext";
 
 const CartView = lazy(() =>
@@ -28,19 +29,21 @@ export function CartPage() {
 	const { items, removeItem, changeQuantity, clearCart } = useCartContext();
 
 	return (
-		<Suspense fallback={<CartSkeleton />}>
-			<CartView
-				cartItems={items}
-				onBack={() => {
-					navigate({ to: "/products", search: { page: 1 } });
-				}}
-				onChangeQuantity={changeQuantity}
-				onConfirm={() => {
-					clearCart();
-					navigate({ to: "/products", search: { page: 1 } });
-				}}
-				onRemove={removeItem}
-			/>
-		</Suspense>
+		<RemoteBoundary>
+			<Suspense fallback={<CartSkeleton />}>
+				<CartView
+					cartItems={items}
+					onBack={() => {
+						navigate({ to: "/products", search: { page: 1 } });
+					}}
+					onChangeQuantity={changeQuantity}
+					onConfirm={() => {
+						clearCart();
+						navigate({ to: "/products", search: { page: 1 } });
+					}}
+					onRemove={removeItem}
+				/>
+			</Suspense>
+		</RemoteBoundary>
 	);
 }

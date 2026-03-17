@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "ZEPHYR_ENABLED=false rsbuild build",
-		"build:zephyr": "rsbuild build",
+		"build": "rsbuild build",
 		"dev": "rsbuild dev",
+		"typecheck": "tsc --noEmit",
 		"preview": "rsbuild preview"
 	},
 	"dependencies": {

@@ -27,7 +27,7 @@ export const ProductCard = ({
 				}}
 				type="button"
 			>
-				<CardContent className="px-6 pt-5">
+				<CardContent className="px-6 pt-5 hover:cursor-pointer">
 					<div className="flex min-h-60 items-center justify-center rounded-md bg-muted px-5 py-6">
 						<img
 							alt={product.name}

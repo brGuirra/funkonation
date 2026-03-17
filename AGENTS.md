@@ -26,7 +26,7 @@ Project constraints from the PRD:
 - Bundler: `Rsbuild`
 - UI stack: `React 19` + `TypeScript`
 - Federation plugin: `@module-federation/rsbuild-plugin`
-- Zephyr integration: `zephyr-rsbuild-plugin`
+- Zephyr integration: `zephyr-rsbuild-plugin` (always-on in all apps, always the last plugin)
 
 Current apps:
 
@@ -42,7 +42,7 @@ Current repo status:
 
 - The host shell owns storefront routing for `/`, `/products`, `/products/$slug`, and `/cart`.
 - The catalog provider exposes product-domain surfaces.
-- The cart provider exposes `CartView`, which is props-driven with cart state injected by the host. Cart and checkout are combined: the user reviews items and confirms directly from the cart page.
+- The cart provider exposes `CartView` and `CartBadge`, both props-driven with cart state injected by the host. Cart and checkout are combined: the user reviews items and confirms directly from the cart page.
 - Cart state lives in `CartContext` inside the host (`consumers/ecommerce/src/context/CartContext.tsx`) and persists to `localStorage`.
 - The three-app PRD architecture is now complete.
 
@@ -71,16 +71,12 @@ Current runtime wiring:
   - `./SeriesFilter -> ./src/components/SeriesFilter.tsx`
 - `cart` exposes:
   - `./CartView -> ./src/components/CartView.tsx`
+  - `./CartBadge -> ./src/components/CartBadge.tsx`
 - Current consumer import examples:
   - `product_catalog/ProductList`
   - `product_catalog/ProductDetails`
   - `cart/CartView`
-
-Important caveat:
-
-- `consumers/ecommerce/module-federation.config.ts` exists but does not match the active `rsbuild.config.ts` setup.
-- Treat `consumers/ecommerce/rsbuild.config.ts` as the live configuration unless a future change intentionally wires `module-federation.config.ts` back into the build.
-- Do not update one of these files and assume the other follows automatically.
+  - `cart/CartBadge`
 
 ## Current Product Architecture
 
@@ -94,7 +90,7 @@ Responsibilities:
 
 - Host: global layout, navigation, routing (`/`, `/products`, `/products/$slug`, `/cart`), cart state ownership via `CartContext`, remote composition
 - Catalog remote: product listing, product details, product data loading from static JSON
-- Cart remote: combined cart and order confirmation view (items, quantities, totals, remove, confirm order)
+- Cart remote: cart badge for navigation, combined cart and order confirmation view (items, quantities, totals, remove, confirm order)
 
 Active exposed modules:
 
@@ -103,39 +99,22 @@ Active exposed modules:
 - `product_catalog/ProductCard`
 - `product_catalog/SeriesFilter`
 - `cart/CartView`
+- `cart/CartBadge`
 
 Cart integration pattern:
 
 - The "Add to bag" button UI lives inside catalog components (`ProductCard`, `ProductDetails`).
 - Behavior is injected by the host via `onAddToCart` callback prop — the catalog never imports from the cart remote.
 - `CartView` receives cart state and actions as props injected by the host `CartPage`. The user confirms the order directly from this view; there is no separate checkout step or route.
+- `CartBadge` renders the cart icon with item count in the navigation header, receiving `itemCount` as a prop from the host.
 - The host is the only app with knowledge of both remotes.
+- All remote components are lazy-loaded with `Suspense` and wrapped in `RemoteBoundary` error boundaries for resilience.
 
 Important rule:
 
 - Treat the current `product_catalog/*` surface as the active catalog-domain contract.
 - Treat the current `cart/*` surface as the active cart-domain contract.
 - Do not introduce cross-remote imports between `product_catalog` and `cart`.
-
-## Zephyr Rules
-
-Both apps currently use `withZephyr()` in `rsbuild.config.ts`. Preserve that unless the platform strategy is intentionally changing.
-
-Local build note:
-
-- The default `build` script disables Zephyr with `ZEPHYR_ENABLED=false` so local verification works without network access.
-- Use `build:zephyr` when you intentionally need the Zephyr-enabled deployment build path.
-
-When working with Zephyr:
-
-- Keep Zephyr dependency metadata aligned with the actual MF remote names.
-- Distinguish clearly between npm package names, workspace package names, and Module Federation container names.
-- If you change remote names, manifest URLs, ports, or expose keys, review Zephyr-related config in the same session.
-
-Important rule:
-
-- In `zephyr:dependencies`, use the Module Federation remote alias as the key and the Zephyr application UID selector as the value.
-- For same-repo Zephyr dependencies, prefer the actual app identity such as `product-catalog@workspace:*` over starter-example names.
 
 ## Architecture Direction
 
@@ -146,10 +125,6 @@ Preferred boundaries:
 - `consumers/ecommerce`: shell, TanStack Router ownership, page composition, shared layout, cart state orchestration
 - `providers/product-catalog`: product listing, product details, product data access
 - `packages/ui`: shared reusable UI source (shadcn-based components and shared styling tokens)
-
-Planned next provider:
-
-- `checkout` or `cart`
 
 Prefer domain-oriented remote boundaries over arbitrary UI-only splits.
 Keep product details inside the catalog domain unless the PRD changes.
@@ -177,6 +152,9 @@ When changing federation behavior:
 - Keep `react` and `react-dom` shared across apps unless there is a very explicit reason not to.
 - If adding new remotes, use clear business names instead of generic names like `remote` or `app1`.
 - Keep the host's local remote URL aligned with the provider's `filename` output (`remoteEntry.js`) unless the federation loading strategy changes intentionally.
+- `withZephyr()` must always be the last plugin in every app's `rsbuild.config.ts` — never conditional on build vs dev. Zephyr hooks into the bundling process for both remote resolution and edge deployment.
+- Keep shared dep config minimal: `{ singleton: true }` is enough. Do not add `requiredVersion` — MF infers versions from `package.json`.
+- Do not manually set `publicPath: "auto"` — the MF Rsbuild plugin handles this.
 
 When changing host routing:
 
@@ -220,18 +198,17 @@ For this repo, start with `mf-context` before making non-trivial federation chan
 From the repo root:
 
 - Install deps: `pnpm install`
-- Build everything: `pnpm build`
-- Build everything with Zephyr enabled: `pnpm -r --filter=./providers/* build:zephyr && pnpm -r --filter=./consumers/* build:zephyr`
+- Build everything: `pnpm build` (Zephyr is always enabled — every build deploys to Zephyr's edge)
 - Build consumer: `pnpm --filter ecommerce build`
-- Build catalog provider: `pnpm --filter product-catalog build`
+- Build catalog provider: `pnpm --filter product_catalog build`
 - Build cart provider: `pnpm --filter cart build`
 - Run consumer dev server: `pnpm --filter ecommerce dev`
-- Run catalog provider dev server: `pnpm --filter product-catalog dev`
+- Run catalog provider dev server: `pnpm --filter product_catalog dev`
 - Run cart provider dev server: `pnpm --filter cart dev`
 
-Important caveat:
+Product data:
 
-- The root `pnpm dev` script currently references old package filters and should not be treated as reliable until it is corrected.
+- Static JSON lives at `providers/product-catalog/data/products.json`, owned by the catalog provider.
 
 ## Files To Check First
 
@@ -263,6 +240,7 @@ Cart provider remote:
 - `providers/cart/package.json`
 - `providers/cart/src/types.ts`
 - `providers/cart/src/components/CartView.tsx`
+- `providers/cart/src/components/CartBadge.tsx`
 - `providers/cart/src/App.tsx`
 
 Workspace:

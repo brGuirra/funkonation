@@ -30,7 +30,6 @@ export type CatalogProductAction = Pick<
 >;
 
 export type CatalogProduct = CatalogProductRecord & {
-	description: string;
 	lineLabel: string;
 	priceLabel: string;
 	rarityLabel: string;

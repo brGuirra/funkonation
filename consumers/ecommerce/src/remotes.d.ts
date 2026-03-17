@@ -54,6 +54,16 @@ declare module "product_catalog/ProductCard" {
 	export function ProductCard(props: ProductCardProps): JSX.Element;
 }
 
+declare module "cart/CartBadge" {
+	import type { JSX } from "react";
+
+	export interface CartBadgeProps {
+		itemCount: number;
+	}
+
+	export function CartBadge(props: CartBadgeProps): JSX.Element;
+}
+
 declare module "cart/CartView" {
 	import type { JSX } from "react";
 
@@ -87,5 +97,4 @@ declare module "product_catalog/SeriesFilter" {
 	}
 
 	export function SeriesFilter(props: SeriesFilterProps): JSX.Element;
-	export function getSeriesOptions(): string[];
 }

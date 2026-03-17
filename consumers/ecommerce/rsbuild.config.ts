@@ -1,59 +1,39 @@
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { pluginModuleFederation } from "@module-federation/rsbuild-plugin";
 import { defineConfig } from "@rsbuild/core";
 import { pluginReact } from "@rsbuild/plugin-react";
 import tailwindcss from "@tailwindcss/postcss";
 import { withZephyr } from "zephyr-rsbuild-plugin";
 
-const workspaceUiSrc = path.resolve(
-	path.dirname(fileURLToPath(import.meta.url)),
-	"../../packages/ui/src",
-);
-
-export default defineConfig(({ command }) => {
-	const plugins = [
+export default defineConfig({
+	plugins: [
 		pluginReact(),
 		pluginModuleFederation({
 			name: "ecommerce",
+			dts: false,
 			remotes: {
 				product_catalog: "product_catalog@http://localhost:3001/remoteEntry.js",
 				cart: "cart@http://localhost:3002/remoteEntry.js",
 			},
-			dts: {
-				generateTypes: false,
-				consumeTypes: false,
-			},
 			shared: {
-				react: {
-					singleton: true,
-				},
-				"react-dom": {
-					singleton: true,
-				},
-				"lucide-react": {},
+				react: { singleton: true, eager: true },
+				"react-dom": { singleton: true, eager: true },
+				"lucide-react": { singleton: true },
 			},
 		}),
-	];
-
-	if (command !== "dev" && process.env.ZEPHYR_ENABLED !== "false") {
-		plugins.push(withZephyr());
-	}
-
-	return {
-		plugins,
-		server: {
-			port: 3000,
+		withZephyr(),
+	],
+	server: {
+		port: 3000,
+	},
+	tools: {
+		rspack(config) {
+			config.output ??= {};
+			config.output.publicPath = "auto";
 		},
-		source: {
-			include: [workspaceUiSrc],
-		},
-		tools: {
-			postcss: {
-				postcssOptions: {
-					plugins: [tailwindcss()],
-				},
+		postcss: {
+			postcssOptions: {
+				plugins: [tailwindcss()],
 			},
 		},
-	};
+	},
 });

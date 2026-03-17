@@ -1,13 +1,9 @@
-import { getSeriesOptions } from "product_catalog/SeriesFilter";
-
 export type CatalogRouteSearch = {
 	page: number;
 	series?: string;
 };
 
 export const pageSize = 8;
-
-const supportedSeries = new Set(getSeriesOptions());
 
 const getFirstString = (value: unknown): string | undefined => {
 	if (typeof value === "string") {
@@ -34,8 +30,7 @@ const parsePage = (value: unknown): number => {
 };
 
 const parseSeries = (value: unknown): string | undefined => {
-	const rawValue = getFirstString(value);
-	return rawValue && supportedSeries.has(rawValue) ? rawValue : undefined;
+	return getFirstString(value);
 };
 
 export const parseCatalogSearch = (

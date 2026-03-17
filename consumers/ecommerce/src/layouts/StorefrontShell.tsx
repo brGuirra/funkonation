@@ -1,7 +1,22 @@
 import { Link, Outlet } from "@tanstack/react-router";
-import { Logo } from "src/components/Logo";
-import { CartIcon } from "../components/CartIcon";
+import { ShoppingBag } from "lucide-react";
+import { lazy, Suspense } from "react";
+import { Logo } from "../components/Logo";
+import { RemoteBoundary } from "../components/RemoteBoundary";
 import { useCartContext } from "../context/CartContext";
+
+const CartBadge = lazy(() =>
+	import("cart/CartBadge").then((m) => ({ default: m.CartBadge })),
+);
+
+function CartBadgeFallback() {
+	return (
+		<div className="flex flex-col items-center">
+			<ShoppingBag aria-hidden className="size-6" />
+			<p className="mt-1 text-xs font-medium">Cart</p>
+		</div>
+	);
+}
 
 export function StorefrontShell() {
 	const { totalItems } = useCartContext();
@@ -29,14 +44,11 @@ export function StorefrontShell() {
 						className="shrink-0 text-right text-link transition-opacity hover:opacity-80"
 						to="/cart"
 					>
-						<div className="flex flex-col items-center">
-							<CartIcon />
-							<p className="mt-1 text-xs font-medium">
-								{totalItems === 0
-									? "Empty"
-									: `${totalItems} ${totalItems === 1 ? "item" : "items"}`}
-							</p>
-						</div>
+						<RemoteBoundary fallback={<CartBadgeFallback />}>
+							<Suspense fallback={<CartBadgeFallback />}>
+								<CartBadge itemCount={totalItems} />
+							</Suspense>
+						</RemoteBoundary>
 					</Link>
 				</div>
 			</header>

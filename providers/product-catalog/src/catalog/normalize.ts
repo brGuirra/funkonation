@@ -1,8 +1,4 @@
-import type {
-	CatalogProduct,
-	CatalogProductAction,
-	CatalogProductRecord,
-} from "./types";
+import type { CatalogProductAction } from "./types";
 
 const usdFormatter = new Intl.NumberFormat("en-US", {
 	currency: "USD",
@@ -16,6 +12,13 @@ type NormalizableProduct = Pick<
 	CatalogProductAction,
 	"description" | "line" | "price" | "rarity" | "series"
 >;
+
+export type NormalizedDisplay = {
+	description: string;
+	lineLabel: string;
+	priceLabel: string;
+	rarityLabel: string;
+};
 
 const titleCase = (value: string) =>
 	value
@@ -39,9 +42,9 @@ export const normalizeDescription = (product: NormalizableProduct) =>
 		? getFallbackDescription(product)
 		: product.description;
 
-export const normalizeProduct = (
-	product: CatalogProductRecord,
-): CatalogProduct => ({
+export const normalizeProduct = <T extends NormalizableProduct>(
+	product: T,
+): T & NormalizedDisplay => ({
 	...product,
 	description: normalizeDescription(product),
 	lineLabel: product.line ?? "Pop! Vinyl",

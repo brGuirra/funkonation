@@ -1,4 +1,3 @@
-import type { CatalogProductAction } from "product_catalog/ProductCard";
 import {
 	createContext,
 	useCallback,
@@ -7,6 +6,14 @@ import {
 	useMemo,
 	useState,
 } from "react";
+
+export type AddToCartPayload = {
+	id: string;
+	slug: string;
+	name: string;
+	imageUrl: string;
+	price: number;
+};
 
 export type CartItem = {
 	productId: string;
@@ -20,7 +27,7 @@ export type CartItem = {
 type CartContextValue = {
 	items: CartItem[];
 	totalItems: number;
-	addItem: (product: CatalogProductAction) => void;
+	addItem: (product: AddToCartPayload) => void;
 	removeItem: (productId: string) => void;
 	changeQuantity: (productId: string, qty: number) => void;
 	clearCart: () => void;
@@ -55,7 +62,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 		writeToStorage(items);
 	}, [items]);
 
-	const addItem = useCallback((product: CatalogProductAction) => {
+	const addItem = useCallback((product: AddToCartPayload) => {
 		setItems((prev) => {
 			const existing = prev.find((item) => item.productId === product.id);
 			if (existing) {

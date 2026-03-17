@@ -4,9 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"build": "ZEPHYR_ENABLED=false rsbuild build",
-		"build:zephyr": "rsbuild build",
+		"build": "rsbuild build",
 		"dev": "rsbuild dev --open",
+		"typecheck": "tsc --noEmit",
 		"preview": "rsbuild preview"
 	},
 	"dependencies": {
@@ -29,7 +29,7 @@
 		"zephyr-rsbuild-plugin": "latest"
 	},
 	"zephyr:dependencies": {
-		"product_catalog": "product-catalog@workspace:*",
-		"cart": "cart@workspace:*"
+		"product_catalog": "product_catalog@*",
+		"cart": "cart@*"
 	}
 }

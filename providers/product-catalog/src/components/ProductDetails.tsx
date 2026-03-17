@@ -7,7 +7,7 @@ import { Badge } from "@funkonation/ui/components/badge";
 import { Button } from "@funkonation/ui/components/button";
 import { Card } from "@funkonation/ui/components/card";
 import { Separator } from "@funkonation/ui/components/separator";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { getNormalizedProductBySlug } from "../catalog/data";
 import type { CatalogProductAction } from "../catalog/types";
 import "../styles.css";
@@ -29,11 +29,12 @@ export const ProductDetails = ({
 		return (
 			<section className="flex flex-col gap-4">
 				<Button
-					className="px-0 font-sans font-medium"
+					className="self-start px-0 font-sans font-medium"
 					onClick={onBack}
 					type="button"
 					variant="link"
 				>
+					<ArrowLeft className="size-4" />
 					Back to catalog
 				</Button>
 				<Alert variant="destructive">
@@ -50,11 +51,12 @@ export const ProductDetails = ({
 	return (
 		<section className="flex flex-col gap-6">
 			<Button
-				className="px-0 font-sans font-medium"
+				className="self-start px-0 font-sans font-medium"
 				onClick={onBack}
 				type="button"
 				variant="link"
 			>
+				<ArrowLeft className="size-4" />
 				Back to catalog
 			</Button>
 			<Card className="overflow-hidden rounded-xl py-0">
@@ -75,7 +77,9 @@ export const ProductDetails = ({
 							<Badge variant="success">{product.stock} in stock</Badge>
 						</div>
 						<div className="flex flex-col gap-2">
-							<p className="text-sm text-muted-foreground">{product.lineLabel}</p>
+							<p className="text-sm text-muted-foreground">
+								{product.lineLabel}
+							</p>
 							<h2 className="font-display text-3xl font-bold text-foreground sm:text-4xl">
 								{product.name}
 							</h2>
